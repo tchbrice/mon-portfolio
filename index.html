@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jules Brice Tchouawou Tolale - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a1f2e;
+            --accent-cyan: #00e5ff;
+            --accent-purple: #a855f7;
+            --accent-green: #10b981;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: rgba(255, 255, 255, 0.08);
+            --glow: rgba(0, 229, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background Grid Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Animated gradient orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: -1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--accent-cyan), transparent);
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-purple), transparent);
+            bottom: -100px;
+            left: -100px;
+            animation-delay: 7s;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--accent-green), transparent);
+            top: 50%;
+            left: 50%;
+            animation-delay: 14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(100px, -100px) scale(1.1); }
+            66% { transform: translate(-100px, 100px) scale(0.9); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .header-tag {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            animation: fadeIn 0.8s ease-out 0.4s both;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 300;
+            animation: fadeIn 0.8s ease-out 0.6s both;
+        }
+
+        .bio {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            animation: fadeIn 0.8s ease-out 0.8s both;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            animation: fadeIn 0.8s ease-out 1s both;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .contact-item:hover {
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            background: var(--glow);
+            transform: translateY(-2px);
+        }
+
+        /* Section Styles */
+        section {
+            margin-bottom: 4rem;
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        section:nth-child(2) { animation-delay: 0.2s; }
+        section:nth-child(3) { animation-delay: 0.3s; }
+        section:nth-child(4) { animation-delay: 0.4s; }
+        section:nth-child(5) { animation-delay: 0.5s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-number {
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--accent-cyan);
+            border-radius: 8px;
+            background: var(--glow);
+        }
+
+        h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border) 0%, transparent 100%);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--glow) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 229, 255, 0.1);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .card-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .card-company {
+            color: var(--accent-cyan);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .card-date {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            white-space: nowrap;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .card-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .card-list li {
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .card-list li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-category {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(168, 85, 247, 0.1);
+        }
+
+        .skill-category h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.2rem;
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .skill-category ul {
+            list-style: none;
+        }
+
+        .skill-category li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .skill-category li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: var(--accent-purple);
+            font-size: 0.7rem;
+        }
+
+        /* Tags */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            padding: 0.4rem 0.8rem;
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 6px;
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: rgba(0, 229, 255, 0.2);
+            border-color: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+
+        /* Certifications */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .cert-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .cert-item:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+        }
+
+        .cert-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .cert-content h4 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .cert-status {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .footer-text {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .card-header {
+                flex-direction: column;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cert-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <header>
+        <div class="header-tag">// Cybersecurity & AI Engineer</div>
+        <h1>Jules Brice<br>Tchouawou Tolale</h1>
+        <p class="subtitle">Ingénieur Cybersécurité & Intelligence Artificielle</p>
+        <p class="bio">
+            Ingénieur sécurité & réseaux, passionné par la cybersécurité et l'innovation technologique. 
+            Mes compétences couvrent l'audit et le pentest, la conception de réseaux sécurisés, la gestion 
+            du risque et l'automatisation de processus à l'aide de solutions IA pour une cybersécurité 
+            plus proactive et intelligente.
+        </p>
+        <div class="contact-info">
+            <a href="mailto:tchbrice58@gmail.com" class="contact-item">
+                <span>📧</span>
+                <span>tchbrice58@gmail.com</span>
+            </a>
+            <a href="tel:+237698231123" class="contact-item">
+                <span>📱</span>
+                <span>+237 6 98 23 11 23</span>
+            </a>
+            <a href="https://www.linkedin.com/in/brice-tchouawou-8a1a39167" target="_blank" class="contact-item">
+                <span>💼</span>
+                <span>LinkedIn</span>
+            </a>
+            <div class="contact-item">
+                <span>📍</span>
+                <span>Yaoundé, Cameroun</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Expériences -->
+        <section id="experience">
+            <div class="section-header">
+                <div class="section-number">01</div>
+                <h2>Expériences professionnelles</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Ingénieur IA & Low Code</h3>
+                            <div class="card-company">Mayem-Solutions | IT Solutions</div>
+                        </div>
+                        <div class="card-date">Juin 2025 - Présent</div>
+                    </div>
+                    <ul class="card-list">
+                        <li>Développement d'applications métiers intelligentes et d'agents IA autonomes</li>
+                        <li>Automatisation des workflows internes</li>
+                        <li>Conception de prompts complexes (Prompt Engineering)</li>
+                        <li>Monitoring, logging et optimisation des scénarios d'automatisation IA</li>
+                        <li>Mise à jour de la charte d'utilisation de l'IA et de la politique de sécurité IA (conformité ISO 27001 & RGPD)</li>
+                    </ul>
+                    <div class="tags">
+                        <span class="tag">OpenAI API</span>
+                        <span class="tag">ChatGPT Enterprise</span>
+                        <span class="tag">Make / n8n</span>
+                        <span class="tag">JSON</span>
+                        <span class="tag">ISO 27001</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Responsable Informatique et Communication</h3>
+                            <div class="card-company">Ango Corp</div>
+                        </div>
+                        <div class="card-date">Déc 2022 - Mai 2025</div>
+                    </div>
+                    <ul class="card-list">
+                        <li>Diagnostiquer et résoudre des problèmes matériels et logiciels</li>
+                        <li>Assurer la surveillance des réseaux et des systèmes pour détecter et corriger les anomalies</li>
+                        <li>Sensibiliser les employés sur les bonnes pratiques des outils TIC</li>
+                        <li>Gérer et configurer les équipements</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Stagiaire Responsable Sécurité</h3>
+                            <div class="card-company">Intelligentsia SA</div>
+                        </div>
+                        <div class="card-date">Mars 2022 - Août 2022</div>
+                    </div>
+                    <p class="card-description">
+                        <strong>Projet :</strong> Étude de la sécurité des réseaux d'entreprises avec l'exploitation 
+                        des tests d'intrusion - Cas d'Intelligentsia
+                    </p>
+                    <ul class="card-list">
+                        <li>Collecte d'informations (OSINT, Nmap, Maltego)</li>
+                        <li>Scan et énumération des ports/services</li>
+                        <li>Exploitation des vulnérabilités (Metasploit, Nessus, ExploitDB)</li>
+                        <li>Maintien de l'accès et post-exploitation sous Kali Linux</li>
+                        <li>Effacement des traces pour simulation réaliste d'attaque</li>
+                    </ul>
+                    <div class="tags">
+                        <span class="tag">Kali Linux</span>
+                        <span class="tag">Metasploit</span>
+                        <span class="tag">Nessus</span>
+                        <span class="tag">Ettercap</span>
+                        <span class="tag">Wireshark</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Compétences -->
+        <section id="skills">
+            <div class="section-header">
+                <div class="section-number">02</div>
+                <h2>Compétences techniques</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>🌐 Réseau Informatique</h3>
+                    <ul>
+                        <li>Conception et déploiement de réseaux LAN/WAN</li>
+                        <li>Protocoles TCP/IP, DHCP, DNS</li>
+                        <li>Protocoles de routage (OSPF, EIGRP)</li>
+                        <li>Packet Tracer, GNS3, Wireshark</li>
+                        <li>Surveillance réseau (Nagios)</li>
+                        <li>Configuration équipements réseau</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>💻 Systèmes & Services</h3>
+                    <ul>
+                        <li>Administration Windows Server</li>
+                        <li>Active Directory, DHCP, DNS</li>
+                        <li>Kali Linux pour tests de sécurité</li>
+                        <li>Virtualisation (VMware, VirtualBox)</li>
+                        <li>Déploiement de machines virtuelles</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>🔒 Sécurité Informatique</h3>
+                    <ul>
+                        <li>Configuration de pare-feu (Firewalls)</li>
+                        <li>Systèmes de détection IDS/IPS</li>
+                        <li>Tests de pénétration</li>
+                        <li>Nessus, Nmap, Metasploit</li>
+                        <li>Normes ISO 27001, ISO 27005</li>
+                        <li>Gestion des risques EBIOS RM</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>👨‍💻 Programmation & Bases de données</h3>
+                    <ul>
+                        <li>HTML & CSS</li>
+                        <li>JavaScript</li>
+                        <li>Python</li>
+                        <li>SQL</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formation -->
+        <section id="education">
+            <div class="section-header">
+                <div class="section-number">03</div>
+                <h2>Formation</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Diplôme d'ingénieur en sécurité des réseaux et des systèmes</h3>
+                            <div class="card-company">Institut Universitaire Saint Jean, Yaoundé</div>
+                        </div>
+                        <div class="card-date">Sept 2017 - Août 2022</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag">Audit de sécurité</span>
+                        <span class="tag">Gestion de risques</span>
+                        <span class="tag">Veille technologique</span>
+                        <span class="tag">Réseaux avancés</span>
+                        <span class="tag">Administration système</span>
+                        <span class="tag">Base de données</span>
+                        <span class="tag">Big data</span>
+                        <span class="tag">UML</span>
+                        <span class="tag">Cryptographie</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Diplôme d'Université</h3>
+                            <div class="card-company">Université de Technologie de Troyes</div>
+                        </div>
+                        <div class="card-date">Sept 2017 - Juillet 2019</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications -->
+        <section id="certifications">
+            <div class="section-header">
+                <div class="section-number">04</div>
+                <h2>Certifications</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="cert-grid">
+                <div class="cert-item">
+                    <div class="cert-icon">🛡️</div>
+                    <div class="cert-content">
+                        <h4>NSE 1 Fortinet</h4>
+                    </div>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-icon">⚡</div>
+                    <div class="cert-content">
+                        <h4>EBIOS Risk Manager</h4>
+                    </div>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-icon">🤖</div>
+                    <div class="cert-content">
+                        <h4>Cisco - Introduction to modern AI</h4>
+                        <div class="cert-status">En cours</div>
+                    </div>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-icon">🔐</div>
+                    <div class="cert-content">
+                        <h4>Cisco - Introduction to Cybersecurity</h4>
+                    </div>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-icon">🌐</div>
+                    <div class="cert-content">
+                        <h4>CCNA R&S : Introduction to Networks</h4>
+                    </div>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-icon">✨</div>
+                    <div class="cert-content">
+                        <h4>CompTIA Security+</h4>
+                        <div class="cert-status">En cours</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projets -->
+        <section id="projects">
+            <div class="section-header">
+                <div class="section-number">05</div>
+                <h2>Projets réalisés</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>🔍 Surveillance Réseau</h3>
+                    <ul>
+                        <li>Mise en place d'un système de surveillance réseau complet</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>📋 Outil d'audit</h3>
+                    <ul>
+                        <li>Conception d'un outil d'audit 27001-27002</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>📞 VoIP</h3>
+                    <ul>
+                        <li>Configuration d'un Call Manager Express (VOIP)</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>👥 Leadership étudiant</h3>
+                    <ul>
+                        <li>Organisation des activités extrascolaires</li>
+                        <li>Président du Bureau des étudiants</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Atouts -->
+        <section id="strengths">
+            <div class="section-header">
+                <div class="section-number">06</div>
+                <h2>Atouts professionnels</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="tags" style="justify-content: center;">
+                <span class="tag">Rigueur & Sens du détail</span>
+                <span class="tag">Intégrité & Discrétion</span>
+                <span class="tag">Esprit d'équipe</span>
+                <span class="tag">Curiosité & Proactivité</span>
+                <span class="tag">Sens de l'écoute</span>
+                <span class="tag">Organisation</span>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-text">
+            <p>Jules Brice Tchouawou Tolale • Ingénieur Cybersécurité & IA</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Yaoundé, Cameroun • Permis B</p>
+        </div>
+        <div class="footer-links">
+            <a href="mailto:tchbrice58@gmail.com" class="footer-link">Email</a>
+            <a href="https://www.linkedin.com/in/brice-tchouawou-8a1a39167" target="_blank" class="footer-link">LinkedIn</a>
+            <a href="tel:+237698231123" class="footer-link">Téléphone</a>
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.85rem; opacity: 0.6;">
+            © 2026 - Conçu avec passion pour la cybersécurité
+        </p>
+    </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section, .card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
