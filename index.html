@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jules Brice Tchouawou Tolale - Portfolio</title>
+    <meta name="description" content="Jules Brice Tchouawou Tolale - Ingénieur en Cybersécurité & IA, spécialisé en sécurité des réseaux et systèmes">
+    <meta name="author" content="Jules Brice Tchouawou Tolale">
+    <meta name="keywords" content="cybersécurité, ingénieur réseau, IA, sécurité informatique, Cameroun">
+    <title>Jules Brice Tchouawou Tolale - Portfolio Cybersécurité & IA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -20,12 +23,18 @@
             --text-muted: #64748b;
             --border: rgba(255, 255, 255, 0.08);
             --glow: rgba(0, 229, 255, 0.15);
+            --nav-height: 70px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: calc(var(--nav-height) + 2rem);
         }
 
         body {
@@ -95,6 +104,150 @@
             66% { transform: translate(-100px, 100px) scale(0.9); }
         }
 
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(10, 14, 23, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(10, 14, 23, 0.95);
+            box-shadow: 0 10px 40px rgba(0, 229, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo:hover {
+            color: var(--accent-cyan);
+            transform: scale(1.05);
+        }
+
+        .nav-logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            position: relative;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+            background: var(--glow);
+        }
+
+        .nav-links a:hover::before {
+            width: 80%;
+        }
+
+        .nav-links a.active {
+            color: var(--accent-cyan);
+            background: var(--glow);
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple), var(--accent-green));
+            z-index: 999;
+            transform-origin: left;
+            transition: transform 0.1s ease;
+        }
+
         /* Container */
         .container {
             max-width: 1200px;
@@ -105,7 +258,7 @@
         /* Header */
         header {
             text-align: center;
-            padding: 6rem 2rem 4rem;
+            padding: calc(var(--nav-height) + 4rem) 2rem 4rem;
             position: relative;
             animation: fadeInDown 0.8s ease-out;
         }
@@ -123,7 +276,7 @@
 
         h1 {
             font-family: 'Syne', sans-serif;
-            font-size: 4rem;
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 800;
             margin-bottom: 1rem;
             background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-cyan) 100%);
@@ -135,7 +288,7 @@
         }
 
         .subtitle {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             color: var(--text-secondary);
             margin-bottom: 2rem;
             font-weight: 300;
@@ -151,13 +304,58 @@
             animation: fadeIn 0.8s ease-out 0.8s both;
         }
 
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2.5rem 0;
+            animation: fadeIn 0.8s ease-out 1s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: var(--text-primary);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 229, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .btn-secondary:hover {
+            background: var(--glow);
+            transform: translateY(-3px);
+        }
+
         .contact-info {
             display: flex;
             justify-content: center;
             gap: 2rem;
             flex-wrap: wrap;
             margin-top: 2rem;
-            animation: fadeIn 0.8s ease-out 1s both;
+            animation: fadeIn 0.8s ease-out 1.2s both;
         }
 
         .contact-item {
@@ -184,13 +382,15 @@
         /* Section Styles */
         section {
             margin-bottom: 4rem;
-            animation: fadeInUp 0.8s ease-out both;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
         }
 
-        section:nth-child(2) { animation-delay: 0.2s; }
-        section:nth-child(3) { animation-delay: 0.3s; }
-        section:nth-child(4) { animation-delay: 0.4s; }
-        section:nth-child(5) { animation-delay: 0.5s; }
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         .section-header {
             display: flex;
@@ -204,7 +404,7 @@
             font-size: 1rem;
             font-weight: 700;
             color: var(--accent-cyan);
-            width: 40px;
+            min-width: 40px;
             height: 40px;
             display: flex;
             align-items: center;
@@ -216,7 +416,7 @@
 
         h2 {
             font-family: 'Syne', sans-serif;
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 4vw, 2rem);
             font-weight: 700;
             color: var(--text-primary);
         }
@@ -232,11 +432,11 @@
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 2rem;
+            padding: 0;
             margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
-            position: relative;
+            transition: all 0.4s ease;
             overflow: hidden;
+            position: relative;
         }
 
         .card::before {
@@ -245,16 +445,16 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--glow) 0%, transparent 100%);
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
         .card:hover {
             border-color: var(--accent-cyan);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0, 229, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 229, 255, 0.15);
+            transform: translateY(-5px);
         }
 
         .card:hover::before {
@@ -262,8 +462,7 @@
         }
 
         .card-content {
-            position: relative;
-            z-index: 1;
+            padding: 2rem;
         }
 
         .card-header {
@@ -271,34 +470,43 @@
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 1rem;
-            flex-wrap: wrap;
             gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .card-title {
             font-family: 'Syne', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 600;
+            font-size: 1.3rem;
+            font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
         }
 
         .card-company {
             color: var(--accent-cyan);
-            font-weight: 500;
-            font-size: 1.1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
         }
 
         .card-date {
             color: var(--text-muted);
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .card-date::before {
+            content: '📅';
+            font-size: 1rem;
         }
 
         .card-description {
             color: var(--text-secondary);
-            margin-bottom: 1rem;
-            line-height: 1.8;
+            margin: 1rem 0;
+            line-height: 1.7;
         }
 
         .card-list {
@@ -308,7 +516,7 @@
 
         .card-list li {
             color: var(--text-secondary);
-            margin-bottom: 0.75rem;
+            padding: 0.5rem 0;
             padding-left: 1.5rem;
             position: relative;
             line-height: 1.6;
@@ -319,7 +527,32 @@
             position: absolute;
             left: 0;
             color: var(--accent-cyan);
-            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Tags */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            background: rgba(0, 229, 255, 0.1);
+            color: var(--accent-cyan);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .tag:hover {
+            background: rgba(0, 229, 255, 0.2);
+            transform: translateY(-2px);
         }
 
         /* Skills Grid */
@@ -334,21 +567,23 @@
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 2rem;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
         }
 
         .skill-category:hover {
-            border-color: var(--accent-purple);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(168, 85, 247, 0.1);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 10px 40px rgba(0, 229, 255, 0.15);
+            transform: translateY(-5px);
         }
 
         .skill-category h3 {
             font-family: 'Syne', sans-serif;
             font-size: 1.2rem;
-            color: var(--accent-purple);
-            margin-bottom: 1rem;
-            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .skill-category ul {
@@ -357,122 +592,117 @@
 
         .skill-category li {
             color: var(--text-secondary);
-            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
             padding-left: 1.5rem;
             position: relative;
-            font-size: 0.95rem;
+            transition: all 0.2s ease;
         }
 
         .skill-category li::before {
-            content: '◆';
+            content: '→';
             position: absolute;
             left: 0;
-            color: var(--accent-purple);
-            font-size: 0.7rem;
-        }
-
-        /* Tags */
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .tag {
-            padding: 0.4rem 0.8rem;
-            background: rgba(0, 229, 255, 0.1);
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            border-radius: 6px;
             color: var(--accent-cyan);
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            font-weight: bold;
         }
 
-        .tag:hover {
-            background: rgba(0, 229, 255, 0.2);
-            border-color: var(--accent-cyan);
-            transform: translateY(-2px);
+        .skill-category li:hover {
+            color: var(--text-primary);
+            padding-left: 2rem;
         }
 
-        /* Certifications */
+        /* Certifications Grid */
         .cert-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
         }
 
         .cert-item {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
+            border-radius: 16px;
+            padding: 1.8rem;
             display: flex;
             align-items: flex-start;
             gap: 1rem;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
         }
 
         .cert-item:hover {
-            border-color: var(--accent-green);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 10px 40px rgba(0, 229, 255, 0.15);
+            transform: translateY(-5px);
         }
 
         .cert-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
-            border-radius: 8px;
+            font-size: 2rem;
+            min-width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
+            background: var(--glow);
+            border-radius: 12px;
         }
 
         .cert-content h4 {
-            color: var(--text-primary);
+            font-family: 'Syne', sans-serif;
             font-size: 1rem;
-            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
             font-weight: 600;
         }
 
         .cert-status {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-style: italic;
+            display: inline-block;
+            background: rgba(168, 85, 247, 0.2);
+            color: var(--accent-purple);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
         }
 
         /* Footer */
         footer {
-            text-align: center;
-            padding: 3rem 2rem;
-            margin-top: 4rem;
+            background: var(--bg-secondary);
             border-top: 1px solid var(--border);
-            color: var(--text-muted);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
         }
 
         .footer-text {
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-text p {
+            color: var(--text-secondary);
+            font-size: 1rem;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
             gap: 2rem;
-            margin-top: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
         }
 
         .footer-link {
-            color: var(--text-secondary);
+            color: var(--accent-cyan);
             text-decoration: none;
-            transition: color 0.3s ease;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
         }
 
         .footer-link:hover {
-            color: var(--accent-cyan);
+            background: var(--glow);
+            transform: translateY(-2px);
         }
 
         /* Animations */
@@ -509,23 +739,46 @@
             }
         }
 
-        /* Responsive */
+        /* Responsive Design */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .subtitle {
-                font-size: 1.2rem;
-            }
-
-            .contact-info {
+            .nav-links {
+                position: fixed;
+                top: var(--nav-height);
+                left: 0;
+                right: 0;
+                background: rgba(10, 14, 23, 0.98);
+                backdrop-filter: blur(20px);
                 flex-direction: column;
-                gap: 1rem;
+                gap: 0;
+                padding: 1rem;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s ease;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            .nav-links a {
+                width: 100%;
+                justify-content: center;
+                padding: 1rem;
+            }
+
+            .menu-toggle {
+                display: flex;
             }
 
             .card-header {
                 flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .card-date {
+                margin-top: 0.5rem;
             }
 
             .skills-grid {
@@ -535,55 +788,150 @@
             .cert-grid {
                 grid-template-columns: 1fr;
             }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
 
-        /* Smooth scroll */
-        html {
-            scroll-behavior: smooth;
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .card-content {
+                padding: 1.5rem;
+            }
+
+            .skill-category {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            nav, .scroll-progress, .orb, .cta-buttons {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            .card, .skill-category, .cert-item {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Focus Styles */
+        a:focus, button:focus {
+            outline: 2px solid var(--accent-cyan);
+            outline-offset: 2px;
         }
     </style>
 </head>
 <body>
+    <!-- Animated Background Orbs -->
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
 
-    <header>
-        <div class="header-tag">// Cybersecurity & AI Engineer</div>
-        <h1>Jules Brice<br>Tchouawou Tolale</h1>
-        <p class="subtitle">Ingénieur Cybersécurité & Intelligence Artificielle</p>
-        <p class="bio">
-            Ingénieur sécurité & réseaux, passionné par la cybersécurité et l'innovation technologique. 
-            Mes compétences couvrent l'audit et le pentest, la conception de réseaux sécurisés, la gestion 
-            du risque et l'automatisation de processus à l'aide de solutions IA pour une cybersécurité 
-            plus proactive et intelligente.
-        </p>
-        <div class="contact-info">
-            <a href="mailto:tchbrice58@gmail.com" class="contact-item">
-                <span>📧</span>
-                <span>tchbrice58@gmail.com</span>
+    <!-- Navigation Bar -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">
+                <div class="nav-logo-icon">🛡️</div>
+                <span>JBT</span>
             </a>
-            <a href="tel:+237698231123" class="contact-item">
-                <span>📱</span>
-                <span>+237 6 98 23 11 23</span>
-            </a>
-            <a href="https://www.linkedin.com/in/brice-tchouawou-8a1a39167" target="_blank" class="contact-item">
-                <span>💼</span>
-                <span>LinkedIn</span>
-            </a>
-            <div class="contact-item">
-                <span>📍</span>
-                <span>Yaoundé, Cameroun</span>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link">🏠 Accueil</a></li>
+                <li><a href="#experience" class="nav-link">💼 Expérience</a></li>
+                <li><a href="#skills" class="nav-link">⚡ Compétences</a></li>
+                <li><a href="#education" class="nav-link">🎓 Formation</a></li>
+                <li><a href="#certifications" class="nav-link">🏆 Certifications</a></li>
+                <li><a href="#projects" class="nav-link">🚀 Projets</a></li>
+                <li><a href="#contact" class="nav-link">📧 Contact</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
+        </div>
+    </nav>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Header -->
+    <header id="home">
+        <div class="header-tag">Ingénieur Cybersécurité & Intelligence Artificielle</div>
+        <h1>Jules Brice Tchouawou Tolale</h1>
+        <p class="subtitle">Expert en sécurité des réseaux et systèmes</p>
+        <div class="bio">
+            Passionné par la cybersécurité et l'intelligence artificielle, je mets mon expertise technique au service de la protection des infrastructures numériques et de l'innovation technologique.
+        </div>
+        
+        <div class="cta-buttons">
+            <a href="#contact" class="btn btn-primary">
+                <span>📧</span> Me Contacter
+            </a>
+            <a href="#projects" class="btn btn-secondary">
+                <span>🚀</span> Voir mes projets
+            </a>
+        </div>
+
+        <div class="contact-info">
+            <a href="tel:+237698231123" class="contact-item">📱 +237 698 231 123</a>
+            <a href="mailto:bricetch5@gmail.com" class="contact-item">✉️ tchbrice58@gmail.com</a>
+            <a href="https://www.linkedin.com/in/brice-tchouawou-8a1a39167" target="_blank" rel="noopener noreferrer" class="contact-item">🔗 LinkedIn</a>
+            <span class="contact-item">📍 Yaoundé, Cameroun</span>
         </div>
     </header>
 
     <div class="container">
-        <!-- Expériences -->
+        <!-- Expérience Professionnelle -->
         <section id="experience">
             <div class="section-header">
                 <div class="section-number">01</div>
-                <h2>Expériences professionnelles</h2>
+                <h2>Expérience Professionnelle</h2>
                 <div class="section-line"></div>
             </div>
 
@@ -609,6 +957,7 @@
                         <span class="tag">Make / n8n</span>
                         <span class="tag">JSON</span>
                         <span class="tag">ISO 27001</span>
+                        <span class="tag">RGPD</span>
                     </div>
                 </div>
             </div>
@@ -628,6 +977,12 @@
                         <li>Sensibiliser les employés sur les bonnes pratiques des outils TIC</li>
                         <li>Gérer et configurer les équipements</li>
                     </ul>
+                    <div class="tags">
+                        <span class="tag">Support technique</span>
+                        <span class="tag">Surveillance réseau</span>
+                        <span class="tag">Formation</span>
+                        <span class="tag">Gestion d'équipements</span>
+                    </div>
                 </div>
             </div>
 
@@ -657,6 +1012,7 @@
                         <span class="tag">Nessus</span>
                         <span class="tag">Ettercap</span>
                         <span class="tag">Wireshark</span>
+                        <span class="tag">Pentest</span>
                     </div>
                 </div>
             </div>
@@ -666,7 +1022,7 @@
         <section id="skills">
             <div class="section-header">
                 <div class="section-number">02</div>
-                <h2>Compétences techniques</h2>
+                <h2>Compétences Techniques</h2>
                 <div class="section-line"></div>
             </div>
 
@@ -735,6 +1091,9 @@
                         </div>
                         <div class="card-date">Sept 2017 - Août 2022</div>
                     </div>
+                    <p class="card-description">
+                        Formation complète en cybersécurité, réseaux informatiques et systèmes d'information
+                    </p>
                     <div class="tags">
                         <span class="tag">Audit de sécurité</span>
                         <span class="tag">Gestion de risques</span>
@@ -758,6 +1117,9 @@
                         </div>
                         <div class="card-date">Sept 2017 - Juillet 2019</div>
                     </div>
+                    <p class="card-description">
+                        Formation technique en partenariat international
+                    </p>
                 </div>
             </div>
         </section>
@@ -830,20 +1192,26 @@
                     <h3>🔍 Surveillance Réseau</h3>
                     <ul>
                         <li>Mise en place d'un système de surveillance réseau complet</li>
+                        <li>Monitoring en temps réel</li>
+                        <li>Alertes automatiques</li>
                     </ul>
                 </div>
 
                 <div class="skill-category">
                     <h3>📋 Outil d'audit</h3>
                     <ul>
-                        <li>Conception d'un outil d'audit 27001-27002</li>
+                        <li>Conception d'un outil d'audit ISO 27001-27002</li>
+                        <li>Interface utilisateur intuitive</li>
+                        <li>Génération de rapports</li>
                     </ul>
                 </div>
 
                 <div class="skill-category">
                     <h3>📞 VoIP</h3>
                     <ul>
-                        <li>Configuration d'un Call Manager Express (VOIP)</li>
+                        <li>Configuration d'un Call Manager Express</li>
+                        <li>Téléphonie IP d'entreprise</li>
+                        <li>Optimisation de la QoS</li>
                     </ul>
                 </div>
 
@@ -852,6 +1220,7 @@
                     <ul>
                         <li>Organisation des activités extrascolaires</li>
                         <li>Président du Bureau des étudiants</li>
+                        <li>Gestion d'équipe et événements</li>
                     </ul>
                 </div>
             </div>
@@ -866,64 +1235,241 @@
             </div>
 
             <div class="tags" style="justify-content: center;">
-                <span class="tag">Rigueur & Sens du détail</span>
-                <span class="tag">Intégrité & Discrétion</span>
-                <span class="tag">Esprit d'équipe</span>
-                <span class="tag">Curiosité & Proactivité</span>
-                <span class="tag">Sens de l'écoute</span>
-                <span class="tag">Organisation</span>
+                <span class="tag">🎯 Rigueur & Sens du détail</span>
+                <span class="tag">🔐 Intégrité & Discrétion</span>
+                <span class="tag">🤝 Esprit d'équipe</span>
+                <span class="tag">🔬 Curiosité & Proactivité</span>
+                <span class="tag">👂 Sens de l'écoute</span>
+                <span class="tag">📊 Organisation</span>
+                <span class="tag">💡 Résolution de problèmes</span>
+                <span class="tag">🌍 Adaptabilité</span>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="section-header">
+                <div class="section-number">07</div>
+                <h2>Me Contacter</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-content" style="text-align: center;">
+                    <h3 class="card-title" style="margin-bottom: 1rem;">Discutons de votre projet</h3>
+                    <p class="card-description" style="max-width: 600px; margin: 0 auto 2rem;">
+                        Vous avez un projet de réseaux, IA, cybersécurité ou souhaitez échanger sur les opportunités de collaboration ? 
+                        N'hésitez pas à me contacter !
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="mailto:bricetch5@gmail.com" class="btn btn-primary">
+                            <span>✉️</span> Envoyer un email
+                        </a>
+                        <a href="tel:+237698231123" class="btn btn-secondary">
+                            <span>📱</span> Appeler
+                        </a>
+                        <a href="https://www.linkedin.com/in/brice-tchouawou-8a1a39167" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                            <span>🔗</span> LinkedIn
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
 
     <footer>
         <div class="footer-text">
-            <p>Jules Brice Tchouawou Tolale • Ingénieur Cybersécurité & IA</p>
+            <p><strong>Jules Brice Tchouawou Tolale</strong> • Ingénieur Cybersécurité & IA</p>
             <p style="margin-top: 0.5rem; font-size: 0.9rem;">Yaoundé, Cameroun • Permis B</p>
         </div>
         <div class="footer-links">
             <a href="mailto:tchbrice58@gmail.com" class="footer-link">Email</a>
-            <a href="https://www.linkedin.com/in/brice-tchouawou-8a1a39167" target="_blank" class="footer-link">LinkedIn</a>
+            <a href="https://www.linkedin.com/in/brice-tchouawou-8a1a39167" target="_blank" rel="noopener noreferrer" class="footer-link">LinkedIn</a>
             <a href="tel:+237698231123" class="footer-link">Téléphone</a>
         </div>
         <p style="margin-top: 2rem; font-size: 0.85rem; opacity: 0.6;">
-            © 2026 - Conçu avec passion pour la cybersécurité
+            © 2026 - Conçu avec passion pour la cybersécurité 🛡️
         </p>
     </footer>
 
     <script>
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+        // ==========================================
+        // NAVIGATION & SCROLL MANAGEMENT
+        // ==========================================
+        
+        const navbar = document.getElementById('navbar');
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        const scrollProgress = document.getElementById('scrollProgress');
+        const navLinkElements = document.querySelectorAll('.nav-link');
+
+        // Mobile menu toggle
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        navLinkElements.forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
             });
         });
 
-        // Intersection Observer for fade-in animations
+        // Navbar scroll effect & progress bar
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            // Add/remove scrolled class
+            if (currentScroll > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // Update scroll progress bar
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            scrollProgress.style.transform = `scaleX(${scrolled / 100})`;
+
+            lastScroll = currentScroll;
+        });
+
+        // ==========================================
+        // ACTIVE SECTION HIGHLIGHTING
+        // ==========================================
+        
+        const sections = document.querySelectorAll('section[id], header[id]');
+        
+        function highlightNavigation() {
+            const scrollY = window.pageYOffset;
+            
+            sections.forEach(section => {
+                const sectionHeight = section.offsetHeight;
+                const sectionTop = section.offsetTop - 100;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                    navLinkElements.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        window.addEventListener('scroll', highlightNavigation);
+
+        // ==========================================
+        // INTERSECTION OBSERVER FOR ANIMATIONS
+        // ==========================================
+        
         const observerOptions = {
             threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            rootMargin: '0px 0px -100px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('visible');
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('section, .card').forEach(el => {
-            observer.observe(el);
+        // Observe all sections
+        sections.forEach(section => {
+            observer.observe(section);
         });
+
+        // ==========================================
+        // SMOOTH SCROLL FOR ANCHOR LINKS
+        // ==========================================
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ==========================================
+        // CARD HOVER EFFECTS
+        // ==========================================
+        
+        const cards = document.querySelectorAll('.card, .skill-category, .cert-item');
+        
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+        });
+
+        // ==========================================
+        // PERFORMANCE: REDUCE ANIMATIONS ON LOW-END DEVICES
+        // ==========================================
+        
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        
+        if (prefersReducedMotion.matches) {
+            document.querySelectorAll('.orb').forEach(orb => {
+                orb.style.animation = 'none';
+            });
+        }
+
+        // ==========================================
+        // LAZY LOADING OPTIMIZATION
+        // ==========================================
+        
+        // Add loading="lazy" to images if any are added later
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                if (!img.hasAttribute('loading')) {
+                    img.setAttribute('loading', 'lazy');
+                }
+            });
+        });
+
+        // ==========================================
+        // KEYBOARD NAVIGATION ACCESSIBILITY
+        // ==========================================
+        
+        document.addEventListener('keydown', (e) => {
+            // Press 'Escape' to close mobile menu
+            if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // ==========================================
+        // PAGE LOAD ANIMATION
+        // ==========================================
+        
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+
+        // ==========================================
+        // CONSOLE EASTER EGG
+        // ==========================================
+        
+        console.log('%c🛡️ Portfolio de Jules Brice Tchouawou', 'font-size: 20px; font-weight: bold; color: #00e5ff;');
+        console.log('%c💻 Ingénieur Cybersécurité & IA', 'font-size: 14px; color: #94a3b8;');
+        console.log('%c📧 Contact: bricetch5@gmail.com', 'font-size: 12px; color: #64748b;');
     </script>
 </body>
 </html>
