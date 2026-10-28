@@ -14,6 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem('jbt-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 <style>
 :root{
   --paper:#EEF1F4;
@@ -28,7 +29,7 @@
   --radius:10px;
 }
 @media (prefers-color-scheme: dark){
-  :root{
+  :root:not([data-theme="light"]){
     --paper:#0F1B2C;
     --surface:#16253A;
     --ink:#E6ECF3;
@@ -40,9 +41,21 @@
     --wire:#4B5F7A;
   }
 }
+:root[data-theme="dark"]{
+    --paper:#0F1B2C;
+    --surface:#16253A;
+    --ink:#E6ECF3;
+    --ink-soft:#A3B2C5;
+    --rule:#2A3B53;
+    --signal:#7C9BFF;
+    --amber:#F2A900;
+    --amber-ink:#F7C64D;
+    --wire:#4B5F7A;
+}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:84px}
 body{
+  transition:background .3s,color .3s;
   font-family:'Archivo',system-ui,sans-serif;
   font-variation-settings:'wdth' 100;
   font-size:17px;line-height:1.6;
@@ -55,7 +68,7 @@ a{color:inherit}
 
 /* ---------- top bar ---------- */
 .bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
-.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.bar .wrap{display:flex;align-items:center;height:64px;gap:12px}
 .mark{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-variation-settings:'wdth' 125;letter-spacing:.01em}
 .mark svg{width:28px;height:28px}
 .nav{display:flex;gap:4px;list-style:none;align-items:center}
@@ -184,17 +197,75 @@ footer .wrap{border-top:1px solid color-mix(in srgb,var(--paper) 14%,transparent
   .channels>li>a{flex-direction:column;gap:2px}
   .channels .val{text-align:left}
 }
+
+/* ---------- dynamic additions ---------- */
+.nav{margin-left:auto}
+.theme{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;border:1px solid var(--rule);background:var(--surface);color:var(--ink);cursor:pointer}
+.theme:hover{border-color:var(--signal)}
+.theme svg{width:18px;height:18px}
+.theme .moon{display:none}
+:root[data-theme="dark"] .theme .sun{display:none}
+:root[data-theme="dark"] .theme .moon{display:block}
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:30;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--signal),var(--amber))}
+
+.hero{position:relative;overflow:hidden}
+#mesh{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero .wrap{position:relative;z-index:1}
+
+.node{cursor:pointer}
+.node rect{transition:stroke .2s,fill .2s,stroke-width .2s}
+.node:hover rect{stroke:var(--signal)}
+.node:focus{outline:none}
+.node:focus-visible rect{stroke:var(--amber);stroke-width:2.6}
+.node.sel rect{stroke:var(--amber);stroke-width:2.4}
+.node.hub.sel rect{fill:var(--signal)}
+.packet{fill:var(--amber)}
+.detail{border-top:1px solid var(--rule);margin-top:10px;padding:14px 4px 2px;min-height:150px}
+.detail .kind{font-size:13px;color:var(--signal);font-weight:600}
+.detail h3{font-size:18px;margin:2px 0 6px;color:var(--ink)}
+.detail p{font-size:15px;color:var(--ink-soft)}
+.detail .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.detail .chips span{font-size:13px;padding:3px 9px;border-radius:999px;border:1px solid var(--rule)}
+.detail.swap{animation:swap .35s ease}
+@keyframes swap{from{opacity:.2;transform:translateY(6px)}to{opacity:1;transform:none}}
+.map .hint{font-size:13px;color:var(--ink-soft);margin:0 4px 6px}
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.filter{font:inherit;font-size:15px;padding:8px 14px;border-radius:999px;border:1px solid var(--rule);background:transparent;color:var(--ink-soft);cursor:pointer}
+.filter:hover{color:var(--ink);border-color:var(--ink-soft)}
+.filter[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.proj[hidden]{display:none}
+.proj.in{animation:cardin .35s ease both}
+@keyframes cardin{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+.proj{position:relative;overflow:hidden;transition:border-color .2s}
+.proj::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(360px circle at var(--mx,50%) var(--my,0%),color-mix(in srgb,var(--signal) 12%,transparent),transparent 60%)}
+.proj:hover::after{opacity:1}
+.proj:hover{border-color:color-mix(in srgb,var(--signal) 55%,var(--rule))}
+
+.timeline .fill{position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--signal),var(--amber));transform-origin:top;transform:scaleY(var(--p,0))}
+.job::before{transition:background .3s,border-color .3s,box-shadow .3s}
+.job.lit::before{border-color:var(--signal);background:var(--signal)}
+.job.now.lit::before{background:var(--amber);border-color:var(--amber);box-shadow:0 0 0 5px color-mix(in srgb,var(--amber) 25%,transparent)}
+
+@media (max-width:760px){
+  .theme{margin-left:auto}
+  .burger{margin-left:8px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
 </style>
 </head>
 <body>
 
+<div class="progress" id="progress" aria-hidden="true"></div>
 <header class="bar">
   <div class="wrap">
     <a class="mark" href="#top" aria-label="Retour en haut de page">
       <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M10 11L22 11L16 22Z" fill="none" stroke="var(--paper)" stroke-width="1.5"/><circle cx="10" cy="11" r="3" fill="#F2A900"/><circle cx="22" cy="11" r="3" fill="var(--paper)"/><circle cx="16" cy="22" r="3" fill="var(--paper)"/></svg>
       JBT
     </a>
-    <button class="burger" id="burger" aria-expanded="false" aria-controls="nav">Menu</button>
     <ul class="nav" id="nav">
       <li><a href="#projets">Projets</a></li>
       <li><a href="#experience">Expérience</a></li>
@@ -203,11 +274,14 @@ footer .wrap{border-top:1px solid color-mix(in srgb,var(--paper) 14%,transparent
       <li><a href="#contact">Contact</a></li>
       <li><a class="cv" href="cv/CV_Brice_Tchouawou.pdf" download>Télécharger le CV</a></li>
     </ul>
+    <button class="theme" id="themeBtn" aria-label="Basculer entre thème clair et sombre"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="nav">Menu</button>
   </div>
 </header>
 
 <main id="top">
   <div class="hero">
+    <canvas id="mesh" aria-hidden="true"></canvas>
     <div class="wrap">
       <div>
         <p class="where"><span class="dot" aria-hidden="true"></span>Yaoundé, Cameroun</p>
@@ -221,7 +295,8 @@ footer .wrap{border-top:1px solid color-mix(in srgb,var(--paper) 14%,transparent
       </div>
 
       <figure class="map">
-        <svg viewBox="0 0 460 330" role="img" aria-labelledby="mapTitle mapDesc">
+        <p class="hint">Cliquez sur un élément pour voir ce que j'y ai construit.</p>
+        <svg viewBox="0 0 460 330" id="topo" role="group" aria-labelledby="mapTitle mapDesc">
           <title id="mapTitle">Ce que j'opère au quotidien</title>
           <desc id="mapDesc">Schéma : n8n auto-hébergé au centre, relié à l'ERP Season, à l'API OpenAI, à WhatsApp et aux outils internes ; en dessous, le réseau de la résidence relié par Starlink.</desc>
           <rect class="zone" x="6" y="6" width="448" height="186" rx="12"/>
@@ -229,26 +304,31 @@ footer .wrap{border-top:1px solid color-mix(in srgb,var(--paper) 14%,transparent
           <rect class="zone" x="6" y="206" width="448" height="118" rx="12"/>
           <text class="zone-label" x="18" y="224">Réseau</text>
 
-          <path class="link live" d="M230 110 L 100 62"/>
-          <path class="link live" d="M230 110 L 360 62"/>
+          <path class="link live" id="l1" d="M230 110 L 100 62"/>
+          <path class="link live" id="l2" d="M230 110 L 360 62"/>
           <path class="link" d="M230 110 L 100 160"/>
           <path class="link" d="M230 110 L 360 160"/>
-          <path class="link" d="M96 274 L 230 274"/>
-          <path class="link" d="M230 274 L 364 274"/>
-          <path class="link" d="M230 136 L 230 252"/>
+          <path class="link" id="l5" d="M96 274 L 230 274"/>
+          <path class="link" id="l6" d="M230 274 L 364 274"/>
+          <path class="link" id="l7" d="M230 136 L 230 252"/>
 
-          <g class="node hub"><rect x="170" y="86" width="120" height="50" rx="9"/><text x="230" y="108" text-anchor="middle">n8n</text><text class="sub" x="230" y="124" text-anchor="middle">VPS, Docker, Traefik</text></g>
-          <g class="node"><rect x="40" y="40" width="120" height="44" rx="9"/><text x="100" y="59" text-anchor="middle">ERP Season</text><text class="sub" x="100" y="74" text-anchor="middle">assistant IA (bêta)</text></g>
-          <g class="node"><rect x="300" y="40" width="120" height="44" rx="9"/><text x="360" y="59" text-anchor="middle">OpenAI API</text><text class="sub" x="360" y="74" text-anchor="middle">agents IA</text></g>
-          <g class="node"><rect x="40" y="140" width="120" height="40" rx="9"/><text x="100" y="164" text-anchor="middle">WhatsApp API</text></g>
-          <g class="node"><rect x="300" y="140" width="120" height="40" rx="9"/><text x="360" y="157" text-anchor="middle">Outils internes</text><text class="sub" x="360" y="171" text-anchor="middle">rapports, tests</text></g>
+          <g class="node hub" data-id="n8n" tabindex="0" role="button" aria-label="n8n"><rect x="170" y="86" width="120" height="50" rx="9"/><text x="230" y="108" text-anchor="middle">n8n</text><text class="sub" x="230" y="124" text-anchor="middle">VPS, Docker, Traefik</text></g>
+          <g class="node" data-id="season" tabindex="0" role="button" aria-label="ERP Season"><rect x="40" y="40" width="120" height="44" rx="9"/><text x="100" y="59" text-anchor="middle">ERP Season</text><text class="sub" x="100" y="74" text-anchor="middle">assistant IA (bêta)</text></g>
+          <g class="node" data-id="openai" tabindex="0" role="button" aria-label="OpenAI API"><rect x="300" y="40" width="120" height="44" rx="9"/><text x="360" y="59" text-anchor="middle">OpenAI API</text><text class="sub" x="360" y="74" text-anchor="middle">agents IA</text></g>
+          <g class="node" data-id="whatsapp" tabindex="0" role="button" aria-label="WhatsApp API"><rect x="40" y="140" width="120" height="40" rx="9"/><text x="100" y="164" text-anchor="middle">WhatsApp API</text></g>
+          <g class="node" data-id="tools" tabindex="0" role="button" aria-label="Outils internes"><rect x="300" y="140" width="120" height="40" rx="9"/><text x="360" y="157" text-anchor="middle">Outils internes</text><text class="sub" x="360" y="171" text-anchor="middle">rapports, tests</text></g>
 
-          <g class="node"><rect x="36" y="252" width="120" height="44" rx="9"/><text x="96" y="271" text-anchor="middle">Starlink</text><text class="sub" x="96" y="286" text-anchor="middle">2 liens + secours</text></g>
-          <g class="node"><rect x="170" y="252" width="120" height="44" rx="9"/><text x="230" y="271" text-anchor="middle">Cœur réseau</text><text class="sub" x="230" y="286" text-anchor="middle">switch, onduleur</text></g>
-          <g class="node"><rect x="304" y="252" width="120" height="44" rx="9"/><text x="364" y="271" text-anchor="middle">15 appartements</text><text class="sub" x="364" y="286" text-anchor="middle">Wi-Fi mesh</text></g>
-          <circle class="pulse" cx="286" cy="90" r="0"><animate attributeName="r" values="0;5;0" dur="2.4s" begin="1.6s" repeatCount="2"/></circle>
+          <g class="node" data-id="starlink" tabindex="0" role="button" aria-label="Starlink"><rect x="36" y="252" width="120" height="44" rx="9"/><text x="96" y="271" text-anchor="middle">Starlink</text><text class="sub" x="96" y="286" text-anchor="middle">2 liens + secours</text></g>
+          <g class="node" data-id="core" tabindex="0" role="button" aria-label="Cœur réseau"><rect x="170" y="252" width="120" height="44" rx="9"/><text x="230" y="271" text-anchor="middle">Cœur réseau</text><text class="sub" x="230" y="286" text-anchor="middle">switch, onduleur</text></g>
+          <g class="node" data-id="apts" tabindex="0" role="button" aria-label="15 appartements"><rect x="304" y="252" width="120" height="44" rx="9"/><text x="364" y="271" text-anchor="middle">15 appartements</text><text class="sub" x="364" y="286" text-anchor="middle">Wi-Fi mesh</text></g>
+          <g id="packets"></g>
         </svg>
-        <figcaption>Ce que j'opère au quotidien chez Mayem Solutions : l'automatisation au-dessus, le réseau qui la porte en dessous.</figcaption>
+        <figcaption class="detail" id="detail" aria-live="polite">
+          <p class="kind" id="dKind">Orchestrateur</p>
+          <h3 id="dTitle">Plateforme n8n auto-hébergée</h3>
+          <p id="dText">Instance n8n sur un VPS Linux, en conteneur Docker derrière un reverse proxy Traefik, avec certificats SSL automatiques et DNS Cloudflare. Elle exécute les workflows de l'entreprise.</p>
+          <div class="chips" id="dChips"><span>Docker</span><span>Traefik</span><span>Let's Encrypt</span><span>Cloudflare</span></div>
+        </figcaption>
       </figure>
     </div>
   </div>
@@ -260,34 +340,41 @@ footer .wrap{border-top:1px solid color-mix(in srgb,var(--paper) 14%,transparent
         <p class="lede">Ce que j'ai conçu et mis en place, du câble jusqu'à l'agent IA.</p>
       </div>
       <div>
-        <div class="projects">
-          <article class="proj lead">
+        <div class="filters" role="group" aria-label="Filtrer les projets">
+          <button class="filter" aria-pressed="true" data-f="all">Tous</button>
+          <button class="filter" aria-pressed="false" data-f="ia">IA et automatisation</button>
+          <button class="filter" aria-pressed="false" data-f="reseau">Réseau</button>
+          <button class="filter" aria-pressed="false" data-f="secu">Sécurité</button>
+          <button class="filter" aria-pressed="false" data-f="dev">Développement</button>
+        </div>
+        <div class="projects" id="projects">
+          <article class="proj lead" data-tags="ia dev secu">
             <span class="state">Bêta</span>
             <h3>Assistant IA intégré à l'ERP Season</h3>
             <p>Conception de l'architecture et des spécifications d'un assistant qui répond aux équipes directement dans l'ERP interne, orchestré par n8n. Les actions qu'il propose ne sont exécutées qu'après validation par un humain.</p>
             <p class="stack"><b>Avec</b> n8n, OpenAI API, API REST, PostgreSQL</p>
           </article>
-          <article class="proj">
+          <article class="proj" data-tags="ia reseau">
             <h3>Plateforme n8n auto-hébergée</h3>
             <p>Instance n8n sur VPS Linux, derrière un reverse proxy Traefik avec certificats SSL automatiques et DNS Cloudflare. Elle héberge les workflows de l'entreprise : parsing d'emails, notifications, webhooks.</p>
             <p class="stack"><b>Avec</b> Docker, Traefik, Let's Encrypt, Cloudflare</p>
           </article>
-          <article class="proj">
+          <article class="proj" data-tags="dev ia">
             <h3>MarcomTest Pro</h3>
             <p>Plateforme web de tests de recrutement : les candidats passent leurs épreuves en ligne et les copies sont corrigées avec l'aide de l'IA.</p>
             <p class="stack"><b>Avec</b> JavaScript, Firebase, OpenAI API</p>
           </article>
-          <article class="proj">
+          <article class="proj" data-tags="reseau">
             <h3>Réseau de la Résidence Chic Africa</h3>
             <p>Internet par Starlink distribué en Ethernet vers 15 appartements, Wi-Fi mesh, onduleurs et lien radio de secours entre bâtiments. Manuel d'exploitation rédigé pour la bascule et la continuité de service.</p>
             <p class="stack"><b>Avec</b> Starlink, TP-Link, MikroTik</p>
           </article>
-          <article class="proj">
+          <article class="proj" data-tags="ia">
             <h3>Comptes rendus de réunion automatisés</h3>
             <p>La réunion hebdomadaire est transcrite, résumée par pôle, relue puis diffusée aux participants sans saisie manuelle.</p>
             <p class="stack"><b>Avec</b> Fireflies, n8n</p>
           </article>
-          <article class="proj">
+          <article class="proj" data-tags="secu">
             <h3>Charte informatique et traçabilité</h3>
             <p>Charte interne sur le matériel, le télétravail et l'usage de l'IA, alignée ISO 27001 et RGPD. Suivi des impressions sur les postes du groupe par scripts.</p>
             <p class="stack"><b>Avec</b> ISO 27001, RGPD, PowerShell</p>
@@ -311,7 +398,8 @@ footer .wrap{border-top:1px solid color-mix(in srgb,var(--paper) 14%,transparent
         <h2>Expérience</h2>
         <p class="lede">Près de 4 ans entre audit de sécurité, support et ingénierie.</p>
       </div>
-      <ol class="timeline">
+      <ol class="timeline" id="tl">
+        <li class="fill" aria-hidden="true" role="presentation"></li>
         <li class="job now">
           <p class="when">Juin 2025 – aujourd'hui</p>
           <h3>Ingénieur systèmes, réseaux et automatisation IA</h3>
@@ -439,6 +527,175 @@ footer .wrap{border-top:1px solid color-mix(in srgb,var(--paper) 14%,transparent
     burger.textContent = 'Menu';
   }));
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  (() => {
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+    const root = document.documentElement;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const css = v => getComputedStyle(root).getPropertyValue(v).trim();
+
+    /* Thème clair / sombre */
+    const sysDark = matchMedia('(prefers-color-scheme: dark)');
+    const current = () => root.dataset.theme || (sysDark.matches ? 'dark' : 'light');
+    if (!root.dataset.theme) root.dataset.theme = current();
+    $('#themeBtn').addEventListener('click', () => {
+      const t = current() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = t;
+      try { localStorage.setItem('jbt-theme', t); } catch (e) {}
+    });
+
+    /* Barre de progression + timeline */
+    const progress = $('#progress'), tl = $('#tl');
+    const jobs = $$('.job', tl);
+    function onScroll() {
+      const h = document.documentElement.scrollHeight - innerHeight;
+      progress.style.transform = `scaleX(${h > 0 ? scrollY / h : 0})`;
+      const r = tl.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, (innerHeight * 0.6 - r.top) / r.height));
+      tl.style.setProperty('--p', p.toFixed(3));
+      jobs.forEach(j => j.classList.toggle('lit', j.getBoundingClientRect().top < innerHeight * 0.6));
+    }
+    addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    /* Fond réseau animé dans le haut de page */
+    const hero = $('.hero'), cv = $('#mesh'), ctx = cv.getContext('2d');
+    let W = 0, H = 0, pts = [], packets = [], running = true;
+    const mouse = { x: -999, y: -999 };
+    const rgba = (hex, a) => {
+      const n = parseInt(hex.replace('#', ''), 16);
+      return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
+    };
+    function resize() {
+      const dpr = Math.min(2, devicePixelRatio || 1);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = W * dpr; cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.min(70, Math.round((W * H) / 18000));
+      pts = Array.from({ length: n }, () => ({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 1.4 + 0.8
+      }));
+    }
+    function frame() {
+      if (!running) return;
+      const blue = css('--signal'), amber = css('--amber');
+      ctx.clearRect(0, 0, W, H);
+      const D = 130, M = 170;
+      if (!reduce) for (const p of pts) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > W) p.vx *= -1;
+        if (p.y < 0 || p.y > H) p.vy *= -1;
+        const dx = mouse.x - p.x, dy = mouse.y - p.y;
+        if (Math.hypot(dx, dy) < M) { p.x += dx * 0.003; p.y += dy * 0.003; }
+      }
+      const edges = [];
+      ctx.lineWidth = 1;
+      for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+        const a = pts[i], b = pts[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < D) {
+          ctx.strokeStyle = rgba(blue, (1 - d / D) * 0.28);
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          edges.push([a, b]);
+        }
+      }
+      for (const p of pts) {
+        const dm = Math.hypot(mouse.x - p.x, mouse.y - p.y);
+        if (dm < M) {
+          ctx.strokeStyle = rgba(amber, (1 - dm / M) * 0.45);
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+        }
+        ctx.fillStyle = rgba(blue, 0.55);
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fill();
+      }
+      if (!reduce && edges.length && Math.random() < 0.05 && packets.length < 10) {
+        const e = edges[Math.floor(Math.random() * edges.length)];
+        packets.push({ a: e[0], b: e[1], t: 0 });
+      }
+      packets = packets.filter(k => k.t <= 1);
+      ctx.fillStyle = amber;
+      for (const k of packets) {
+        k.t += 0.022;
+        ctx.beginPath();
+        ctx.arc(k.a.x + (k.b.x - k.a.x) * k.t, k.a.y + (k.b.y - k.a.y) * k.t, 2, 0, 7);
+        ctx.fill();
+      }
+      if (!reduce) requestAnimationFrame(frame);
+    }
+    resize(); frame();
+    addEventListener('resize', () => { resize(); if (reduce) frame(); });
+    hero.addEventListener('pointermove', e => {
+      const r = cv.getBoundingClientRect();
+      mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+    });
+    hero.addEventListener('pointerleave', () => { mouse.x = mouse.y = -999; });
+    const resume = () => { if (!running) { running = true; if (!reduce) requestAnimationFrame(frame); } };
+    new IntersectionObserver(([e]) => { if (e.isIntersecting) resume(); else running = false; }).observe(hero);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) running = false; else resume(); });
+    if (reduce) new MutationObserver(frame).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+
+    /* Schéma cliquable */
+    const DATA = {
+      n8n: ['Orchestrateur', 'Plateforme n8n auto-hébergée', "Instance n8n sur un VPS Linux, en conteneur Docker derrière un reverse proxy Traefik, avec certificats SSL automatiques et DNS Cloudflare. Elle exécute les workflows de l'entreprise.", ['Docker', 'Traefik', "Let's Encrypt", 'Cloudflare']],
+      season: ['ERP interne · bêta', "Assistant IA de l'ERP Season", "Conception de l'architecture et des spécifications d'un assistant qui répond aux équipes directement dans l'ERP. Les actions qu'il propose ne sont exécutées qu'après validation humaine.", ['n8n', 'API REST', 'PostgreSQL']],
+      openai: ['Modèles IA', 'Agents IA', "Les workflows n8n appellent l'API OpenAI pour résumer, extraire et corriger : comptes rendus de réunion, correction des tests de recrutement, traitement de données.", ['OpenAI API', 'Fireflies', 'JSON']],
+      whatsapp: ['Messagerie · en cours', 'WhatsApp Business API', "Intégration de l'API WhatsApp de Meta à n8n : application Meta, webhook et réception des messages validés. Prochaine étape : traiter les messages clients.", ['Meta', 'Webhooks', 'n8n']],
+      tools: ['Applications métier', 'Outils internes', "MarcomTest Pro pour les tests de recrutement, comptes rendus de réunion automatisés et suivi des impressions par scripts PowerShell.", ['JavaScript', 'Firebase', 'PowerShell']],
+      starlink: ['Accès Internet', 'Liens Starlink et secours', "Deux antennes Starlink sur le bâtiment principal, une sur le second, et un lien radio point-à-point conçu comme secours entre les deux bâtiments.", ['Starlink', 'TP-Link CPE', 'Failover']],
+      core: ['Local technique', 'Cœur réseau', "Routeur mesh principal et switch 24 ports sur onduleur, qui distribuent le réseau vers chaque appartement. Procédures de bascule documentées dans le manuel d'exploitation.", ['Switch', 'Onduleur', 'QoS']],
+      apts: ['Distribution', '15 appartements raccordés', "Chaque appartement est raccordé en Ethernet avec son propre point d'accès Wi-Fi mesh.", ['Ethernet', 'Wi-Fi mesh', 'TP-Link Deco']]
+    };
+    const nodes = $$('#topo .node[data-id]'), detail = $('#detail');
+    function select(id) {
+      const d = DATA[id]; if (!d) return;
+      nodes.forEach(n => n.classList.toggle('sel', n.dataset.id === id));
+      $('#dKind').textContent = d[0];
+      $('#dTitle').textContent = d[1];
+      $('#dText').textContent = d[2];
+      $('#dChips').innerHTML = d[3].map(c => `<span>${c}</span>`).join('');
+      detail.classList.remove('swap'); void detail.offsetWidth; detail.classList.add('swap');
+    }
+    nodes.forEach(n => {
+      n.addEventListener('click', () => select(n.dataset.id));
+      n.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(n.dataset.id); } });
+    });
+    select('n8n');
+
+    /* Paquets qui circulent sur le schéma */
+    if (!reduce) {
+      const NS = 'http://www.w3.org/2000/svg', g = $('#packets');
+      [['l1', 0], ['l2', 0.9], ['l7', 0.4], ['l5', 1.5], ['l6', 2.1]].forEach(([id, delay]) => {
+        const c = document.createElementNS(NS, 'circle');
+        c.setAttribute('r', '3.2'); c.setAttribute('class', 'packet');
+        const m = document.createElementNS(NS, 'animateMotion');
+        m.setAttribute('dur', '2.6s'); m.setAttribute('repeatCount', 'indefinite');
+        m.setAttribute('begin', (1.6 + delay) + 's');
+        const mp = document.createElementNS(NS, 'mpath');
+        mp.setAttribute('href', '#' + id);
+        m.appendChild(mp); c.appendChild(m); g.appendChild(c);
+      });
+    }
+
+    /* Filtres des projets */
+    const filters = $$('.filter'), cards = $$('#projects .proj');
+    filters.forEach(b => b.addEventListener('click', () => {
+      const f = b.dataset.f;
+      filters.forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+      cards.forEach(c => {
+        const show = f === 'all' || c.dataset.tags.split(' ').includes(f);
+        c.hidden = !show;
+        c.classList.remove('in');
+        if (show) { void c.offsetWidth; c.classList.add('in'); }
+      });
+    }));
+    cards.forEach(c => c.addEventListener('pointermove', e => {
+      const r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    }));
+  })();
 </script>
 </body>
 </html>
